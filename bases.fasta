@@ -1,0 +1,40 @@
+> seq 1 - long seq --> with embedded greater than sign in annotation
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+> seq 2 - long seq with leading ambiguous
+xxxxacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+> seq 3 - long seq with trailing ambiguous
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtxxxx
+> seq 4 - long seq with leading and trailing ambiguous
+xxxxacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtxxxx
+> seq 5 - long seq with emmbedded ambiguous residue
+acgtacgtacgtacgtacgtacgtacgtacgtxcgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+> seq 6 - long seq with leading and emmbedded ambiguous residue
+xxxxacgtacgtacgtacgtacgtacgtacgtxcgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+> seq 7 - long seq with trailing and emmbedded ambiguous residue
+acgtacgtacgtacgtacgtacgtacgtacgtxcgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtxxxx
+> seq 8 - long seq with leading, trailing and emmbedded ambiguous residue
+xxxxacgtacgtacgtacgtacgtacgtacgtxcgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgt
+acgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtacgtxxxx
+> seq 9  - short seq --> with embedded greater than sign in annotation
+aaaaaccccc
+> seq 10 - short seq with leading ambiguous
+xxxaaaaaccccc
+> seq 11 - short seq with trailing ambiguous
+aaaaacccccxxx
+> seq 12 - short seq with leading and trailing ambiguous
+xxxaaaaacccccxxx
+> seq 13 - short seq with emmbedded ambiguous residue
+aaaaxccccc
+> seq 14 - short seq with leading and emmbedded ambiguous residue
+xxxaaaaxccccc
+> seq 15 - short seq with trailing and emmbedded ambiguous residue
+aaaaxcccccxxx
+> seq 16 - short seq with leading, trailing and emmbedded ambiguous residue
+xxxaaaaxcccccxxx
