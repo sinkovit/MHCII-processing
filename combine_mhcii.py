@@ -28,7 +28,7 @@ parser.add_argument('-s', dest='self_prediction',
 parser.add_argument('-f', dest='foreign_prediction',
                     help='MHC II predictions for foreign peptides')
 parser.add_argument('-r', dest='results',
-                    help='MHC II predictions for foreign peptides')
+                    help='Results for foreign peptide binding relative to self')
 parser.add_argument('-m', dest='method', default='nn',
                     help='MHC II prediction method (nn or smm)')
 parser.add_argument('-c', dest='cutoff', type=int,
@@ -47,6 +47,8 @@ print 'MHC binding prediction method:    ', method
 print 'IC50 cuotff:                      ', cutoff
 
 # Determine TCR class occupancies for self peptides
+print
+print '-- Self-binding statistics --'
 occupancy = {}
 if method == 'smm':
     nn_file, smm_file = mhcii.mhcii_to_TCR_classes(self_prediction, 0, cutoff)
@@ -62,10 +64,14 @@ with open(self_occ, 'r') as fin:
 
 
 # Process the foreign peptide binding file and write annotated results
+counter_foreign = 0
+counter_foreign_binding = 0
+
 fout = open(results, 'w')
 with open(foreign_prediction, 'r') as fin:
     next(fin)
     for line in fin:
+        counter_foreign += 1
         fields = line.split()
 
         # Get information on peptide, SMM scoring and NN scoring
@@ -83,10 +89,21 @@ with open(foreign_prediction, 'r') as fin:
         tcr_nn_class  = nn_core[1]+nn_core[2]+nn_core[4]+nn_core[7]
 
         if method == 'smm' and smm_ic50 < cutoff:
+            counter_foreign_binding += 1
             s = peptide + " " + smm_core + " " + tcr_smm_class + " " + str(smm_ic50) + " " + occupancy[tcr_smm_class] + "\n"
             fout.write(s)
         if method == 'nn' and nn_ic50 < cutoff:
+            counter_foreign_binding += 1
             s = peptide + " " +  nn_core + " " + tcr_nn_class + " "  + str(nn_ic50)  + " " + occupancy[tcr_nn_class]  + "\n"
             fout.write(s)
 
 fout.close()
+
+pct_binding = 100 * float(counter_foreign_binding)/float(counter_foreign)
+print
+print '-- Foreign-binding statistics --'
+print
+print '# peptides:               ', counter_foreign
+print '# peptides IC50 < cutoff: ', counter_foreign_binding
+print 'Percent binding:          ', pct_binding
+
