@@ -14,9 +14,21 @@ annotation lines contain embedded '>' characters.
 split-and-preprocess.py addresses all of these issues in addition to
 optionally splitting the input file into chunks. The following command
 was used for preprocessing the mouse proteome and generating chunks of
-2000 records; sequences that do not satisfy length and residue requirements
-are written to errors.fasta. Run with -h to see usage.
+
+2000 records; sequences that do not satisfy length and residue
+requirements are written to errors.fasta. Run with -h to see usage.
 
 ```
 python3 split-and-preprocess.py -c 2000 -m 15 -r -t -x -A uniprot-proteome%3AUP000000589.fasta
+```
+
+### Step 2 - Run MHC II binding prediction tool
+
+Run binding prediction tool on each chunk of the mouse proteome file
+using MHC II allele $I-a^b$. The example below does this for a small
+sample (first three records) of the first chunk generated in the
+previous step. Syntax is for version 2.13 of IEDB tools. 
+
+```
+python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb seq_000.fasta > seq_000.txt
 ```
