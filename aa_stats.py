@@ -27,7 +27,7 @@ for c in all_aas:
     aa_count[c] = 0
 
 # Loop over records in proteome and accumulate AA counts
-fin = open(infile, 'rU')
+fin = open(infile, 'r')
 for line in fin:
     if line[0] == '>':
         continue
@@ -44,22 +44,22 @@ count_all = 0
 for c in all_aas:
     count_all += aa_count[c]
 
-print '# residues:     ', count_all
-print '# std residues: ', count_std 
-print
+print('# residues:     ', count_all)
+print('# std residues: ', count_std)
+print()
 
 # Print out results for standard AAs
-print "Statistics for standard AAs"
-print "residue  count       frequency"
+print("Statistics for standard AAs")
+print("residue  count       frequency")
 for c in std_aas:
     freq = float(aa_count[c]) / float(count_std)
-    print '{}     {:10d}    {:9.6f}'.format(c, aa_count[c], freq)
+    print( '{}     {:10d}    {:9.6f}'.format(c, aa_count[c], freq))
 
 # Print out results for standard + ambiguous AAs
-print
-print "Statistics for standard + ambiguous AAs"
-print "residue  count       frequency"
+print()
+print("Statistics for standard + ambiguous AAs")
+print("residue  count       frequency")
 for c in all_aas:
     freq = float(aa_count[c]) / float(count_all)
-    print '{}     {:10d}    {:9.6f}'.format(c, aa_count[c], freq)
+    print('{}     {:10d}    {:9.6f}'.format(c, aa_count[c], freq))
 

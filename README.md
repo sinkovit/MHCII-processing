@@ -4,6 +4,11 @@ This repository contains a collection of scripts and utilities that
 were used for generating data in the publication *PD1 and CD73
 synergistically limit CD4 T cell responses to autoantigens*
 
+The full output from the MHC II binding predictions, especially for
+mouse self-peptide binding, is too large to store in GitHub. The
+examples below involve very small subsets of the data. The complete
+data are published on FigShare at the DOI 10.6084/m9.figshare.15057975
+
 ### Step 1 - Preprocess and optionally split proteome into chunks
 
 The MHC II binding prediction tool requires that the input sequences
@@ -46,3 +51,10 @@ classes, run `grep -v 0 nn_1000.out`
 ```
 python3 parse_mhcii.py -n 1000 seq_000.txt
 ```
+
+### Step 4 - Calculate amino acid usage stats for mouse proteome
+
+`aa_stats.py` gives amino acid usages for both standard and
+non-standard (BOUJXZ) residues across entire proteome
+
+```python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta```
