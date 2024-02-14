@@ -1,4 +1,4 @@
-# Program split_fasta.py
+# Program split-and-preprocess.py
 #
 # Description: Standalone Python program to split a FASTA file into
 # chunks of a specified size. Also has capabilites to 
@@ -93,7 +93,7 @@ nshort = 0
 nnonstd = 0
 
 # Loop over records in FASTA file
-fin = open(infile, 'rU')
+fin = open(infile, 'r')
 for line in fin:
     if line[0] == '>':
         count += 1
@@ -131,6 +131,6 @@ nshort, nnonstd = write_fasta_record(sequence, header, minlen, trim_nonstd,
         
 
 # Write out some statistics
-print '# reject sequences below minimum length:   ', nshort
-print '# rejected sequences w/ nonstd characters: ', nnonstd
+print('# reject sequences below minimum length:   ', nshort)
+print('# rejected sequences w/ nonstd characters: ', nnonstd)
 print
