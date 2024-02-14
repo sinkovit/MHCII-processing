@@ -11,12 +11,11 @@ contain at least 15 residues. In addition, the sequences cannot
 contain ambiguous residues (BJOXZ) or selenocysteine (U), nor can the
 annotation lines contain embedded '>' characters.
 
-split-and-preprocess.py addresses all of these issues in addition to
+`split-and-preprocess.py` addresses all of these issues in addition to
 optionally splitting the input file into chunks. The following command
 was used for preprocessing the mouse proteome and generating chunks of
-
 2000 records; sequences that do not satisfy length and residue
-requirements are written to errors.fasta. Run with -h to see usage.
+requirements are written to errors.fasta. Run with `-h` to see usage.
 
 ```
 python3 split-and-preprocess.py -c 2000 -m 15 -r -t -x -A uniprot-proteome%3AUP000000589.fasta
@@ -25,10 +24,23 @@ python3 split-and-preprocess.py -c 2000 -m 15 -r -t -x -A uniprot-proteome%3AUP0
 ### Step 2 - Run MHC II binding prediction tool
 
 Run binding prediction tool on each chunk of the mouse proteome file
-using MHC II allele $I-a^b$. The example below does this for a small
+using MHC II allele $IA^b$. The example below does this for a small
 sample (first three records) of the first chunk generated in the
 previous step. Syntax is for version 2.13 of IEDB tools. 
 
 ```
 python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb seq_000.fasta > seq_000.txt
+```
+
+### Step 3 - Calculate self-peptide class occupancies
+
+After running the MHC II binding prediction tool, concatenate the
+output and use `parse_mhcii.py` to calculate the self-peptide class
+occupancies based on the NN algorithm. Note that the script
+automatically strips out multiple header lines and the affinity
+threshold is in unit of nM. Run with `-h` to see usage. Output will be
+named `nn_xxxx.out`, where `xxxx` is the affinity threshold.
+
+```
+python3 parse_mhcii.py -n 1000 seq_000.txt
 ```
