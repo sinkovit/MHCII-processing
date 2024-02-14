@@ -36,10 +36,12 @@ python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb 
 
 After running the MHC II binding prediction tool, concatenate the
 output and use `parse_mhcii.py` to calculate the self-peptide class
-occupancies based on the NN algorithm. Note that the script
-automatically strips out multiple header lines and the affinity
-threshold is in unit of nM. Run with `-h` to see usage. Output will be
-named `nn_xxxx.out`, where `xxxx` is the affinity threshold.
+occupancies based on the NN algorithm. The script automatically strips
+out multiple header lines and the affinity threshold is in unit of
+nM. Run with `-h` to see usage. Output will be named `nn_xxxx.out`,
+where `xxxx` is the affinity threshold. Note that in this small
+example, most classes will have zero occupancy. To see occupied
+classes, run `grep -v 0 nn_1000.out`
 
 ```
 python3 parse_mhcii.py -n 1000 seq_000.txt
