@@ -9,6 +9,8 @@ mouse self-peptide binding, is too large to store in GitHub. The
 examples below involve very small subsets of the data. The complete
 data are published on FigShare at the DOI 10.6084/m9.figshare.15057975
 
+Mouse proteome can be downloaded at https://www.uniprot.org/proteomes/UP000000589
+
 ### Step 1 - Preprocess and optionally split proteome into chunks
 
 The MHC II binding prediction tool requires that the input sequences
@@ -42,7 +44,7 @@ python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb 
 After running the MHC II binding prediction tool, concatenate the
 output and use `parse_mhcii.py` to calculate the self-peptide class
 occupancies based on the NN algorithm. The script automatically strips
-out multiple header lines and the affinity threshold is in unit of
+out multiple header lines and the affinity threshold is in units of
 nM. Run with `-h` to see usage. Output will be named `nn_xxxx.out`,
 where `xxxx` is the affinity threshold. Note that in this small
 example, most classes will have zero occupancy. To see occupied
