@@ -67,5 +67,6 @@ python3 parse_mhcii.py -n 1000 data/seq_000.txt
 `aa_stats.py` gives amino acid usages for both standard and
 non-standard (BOUJXZ) residues across entire proteome
 
-```python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
+```
+python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
 ```
