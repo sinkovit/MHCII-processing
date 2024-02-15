@@ -22,10 +22,18 @@ annotation lines contain embedded '>' characters.
 optionally splitting the input file into chunks. The following command
 was used for preprocessing the mouse proteome and generating chunks of
 2000 records; sequences that do not satisfy length and residue
-requirements are written to errors.fasta. Run with `-h` to see usage.
+requirements are written to `errors.fasta`. Run with `-h` to see usage.
 
 ```
 python3 split-and-preprocess.py -c 2000 -m 15 -r -t -x -A uniprot-proteome%3AUP000000589.fasta
+```
+
+To demonstrate how `split-and-preprocess.py` handles short lines,
+ambiguous characters, etc., execute the following
+
+```
+python3 split-and-preprocess.py -m 15 -r -t -x -A data/aa.fasta
+python3 split-and-preprocess.py -m 15 -r -t -x -N data/bases.fasta
 ```
 
 ### Step 2 - Run MHC II binding prediction tool
@@ -36,7 +44,7 @@ sample (first three records) of the first chunk generated in the
 previous step. Syntax is for version 2.13 of IEDB tools. 
 
 ```
-python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb seq_000.fasta > seq_000.txt
+python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb data/seq_000.fasta > data/seq_000.txt
 ```
 
 ### Step 3 - Calculate self-peptide class occupancies
@@ -51,7 +59,7 @@ example, most classes will have zero occupancy. To see occupied
 classes, run `grep -v 0 nn_1000.out`
 
 ```
-python3 parse_mhcii.py -n 1000 seq_000.txt
+python3 parse_mhcii.py -n 1000 data/seq_000.txt
 ```
 
 ### Step 4 - Calculate amino acid usage stats for mouse proteome
@@ -59,4 +67,5 @@ python3 parse_mhcii.py -n 1000 seq_000.txt
 `aa_stats.py` gives amino acid usages for both standard and
 non-standard (BOUJXZ) residues across entire proteome
 
-```python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta```
+```python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
+```
