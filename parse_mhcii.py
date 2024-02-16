@@ -7,6 +7,9 @@
 # since different algorithms may predict different core nonamers for a
 # given 15-mer.
 #
+# After binding peptides are sorted into classes, construct histogram
+# of occupancies (number of clases with 0, 1, 2, ... peptides/class)
+#
 # Author: Robert Sinkovits, San Diego Supercomputer Center
 
 import argparse
@@ -15,14 +18,17 @@ parser = argparse.ArgumentParser(description='Parse MHC II prediction data and s
 parser.add_argument(dest='infile',
                     help='Input file in FASTA format')
 parser.add_argument('-n', dest='nn_cutoff', default=0, type=int,
-                    help='Cutoff affinity for NN algorithm affinity prediction')
+                    help='Cutoff affinity for NN algorithm affinity prediction (if 0, no file written)')
 parser.add_argument('-s', dest='smm_cutoff', default=0, type=int,
-                    help='Cutoff affinity for SMM algorithm affinity prediction')
+                    help='Cutoff affinity for SMM algorithm affinity prediction (if 0, no file written)')
+parser.add_argument('-p', dest='outpre',
+                    help='Prefix for output files')
 
 args          = parser.parse_args()
 infile        = args.infile
 nn_cutoff     = args.nn_cutoff
 smm_cutoff    = args.smm_cutoff
+outpre        = args.outpre
 
 
 def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
@@ -37,7 +43,6 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
                     tcr_class = pos1+pos2+pos3+pos4
                     smm_dict[tcr_class] = 0
                     nn_dict[tcr_class]  = 0
-
 
     # Initialize counts for peptides with bindings below affinity
     # threshold, total number of peptides and number of empty classes
@@ -80,11 +85,12 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
                 nn_dict[tcr_nn_class]   += 1
 
     # Write results for SMM method
-    smm_file = 'smm_'+str(smm_cutoff)+'.out'
     if smm_cutoff > 0:
+        # Class occupancy
+        smm_file = outpre + '_smm_' + str(smm_cutoff) + 'nM_classocc.txt'
+        fout = open(smm_file, 'w')
         sorted_keys = sorted(smm_dict.keys())
         smm_empty_classes = 0
-        fout = open(smm_file, 'w')
         for k in sorted_keys:
             if smm_dict[k] == 0:
                 smm_empty_classes += 1
@@ -92,6 +98,19 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
             fout.write(s)
         fout.close()
 
+        # Class occupancy histogram        
+        smm_file = outpre + '_smm_' + str(smm_cutoff) + 'nM_classocc-hist.txt'
+        fout = open(smm_file, 'w')
+        nbins = max(smm_dict.values()) + 1
+        class_occ_hist = [0] * nbins
+        for v in smm_dict.values():
+            class_occ_hist[v] += 1
+
+        for i in range(nbins):
+            s = str(i) + " " + str(class_occ_hist[i]) + "\n"
+            fout.write(s)
+        fout.close()
+            
         pct_binding = 100 * float(smm_count_below_IC50)/float(peptide_count)
         print()
         print('SMM statistics')
@@ -100,12 +119,13 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
         print('# peptides IC50 < cutoff: ', smm_count_below_IC50)
         print('Percent binding:          ', pct_binding)
 
-# Write results for NN method
-    nn_file = 'nn_'+str(nn_cutoff)+'.out'
+    # Write results for NN method
     if nn_cutoff > 0:
+        # Class occupancy
+        nn_file = outpre + '_nn_' + str(nn_cutoff) + 'nM_classocc.txt'
+        fout = open(nn_file, 'w')
         sorted_keys = sorted(nn_dict.keys())
         nn_empty_classes = 0
-        fout = open(nn_file, 'w')
         for k in sorted_keys:
             if nn_dict[k] == 0:
                 nn_empty_classes += 1
@@ -113,6 +133,19 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
             fout.write(s)
         fout.close()
 
+        # Class occupancy histogram        
+        nn_file = outpre + '_nn_' + str(nn_cutoff) + 'nM_classocc-hist.txt'
+        fout = open(nn_file, 'w')
+        nbins = max(nn_dict.values()) + 1
+        class_occ_hist = [0] * nbins
+        for v in nn_dict.values():
+            class_occ_hist[v] += 1
+
+        for i in range(nbins):
+            s = str(i) + " " + str(class_occ_hist[i]) + "\n"
+            fout.write(s)
+        fout.close()
+            
         pct_binding = 100 * float(nn_count_below_IC50)/float(peptide_count)
         print()
         print('NN statistics')
@@ -121,6 +154,6 @@ def mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff):
         print('# peptides IC50 < cutoff: ', nn_count_below_IC50)
         print('Percent binding:          ', pct_binding)
 
-    return nn_file, smm_file
+    return
 
 mhcii_to_TCR_classes(infile, nn_cutoff, smm_cutoff)
