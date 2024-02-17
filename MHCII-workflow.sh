@@ -83,3 +83,6 @@ python3 parse_mhcii.py -n 1000 -p mouse mhciipred.mouse.UP000000589.txt
 
 # Calculate class occupancies and histogram for synthetic mouse proteome
 python3 parse_mhcii.py -n 1000 -p mouse_random mhciipred.mouse_random.UP000000589.txt
+
+# Calculate amino acid usage for mouse proteome
+python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
