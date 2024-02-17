@@ -7,9 +7,10 @@ synergistically limit CD4 T cell responses to autoantigens*
 The full output from the MHC II binding predictions, especially for
 mouse self-peptide binding, is too large to store in GitHub. The
 examples below involve very small subsets of the data. The complete
-data are published on FigShare at the DOI 10.6084/m9.figshare.15057975
+data, including the version of the mouse proteome used in this study
+are published on FigShare at the DOI 10.6084/m9.figshare.15057975
 
-Mouse proteome can be downloaded at https://www.uniprot.org/proteomes/UP000000589
+The workflow using the complete data is given in MHCII-workflow.sh
 
 ### Step 1 - Preprocess and optionally split proteome into chunks
 
@@ -47,19 +48,21 @@ previous step. Syntax is for version 2.13 of IEDB tools.
 python2 [path to mhc_ii installation]/mhc_II_binding.py IEDB_recommended H2-IAb data/seq_000.fasta > data/seq_000.txt
 ```
 
-### Step 3 - Calculate self-peptide class occupancies
+### Step 3 - Calculate self-peptide class occupancies and histograms
 
 After running the MHC II binding prediction tool, concatenate the
 output and use `parse_mhcii.py` to calculate the self-peptide class
 occupancies based on the NN algorithm. The script automatically strips
 out multiple header lines and the affinity threshold is in units of
-nM. Run with `-h` to see usage. Output will be named `nn_xxxx.out`,
-where `xxxx` is the affinity threshold. Note that in this small
-example, most classes will have zero occupancy. To see occupied
-classes, run `grep -v 0 nn_1000.out`
+nM. Run with `-h` to see usage. In the example below, output files
+will be named `mouse_nn_1000nM_classocc.txt` and
+`mouse_nn_1000nM_classocc-hist.txt`.
+
+Note that in this small example, most classes will have zero
+occupancy. To see occupied classes, run `grep -v 0 mouse_nn_1000nM_classocc.txt`
 
 ```
-python3 parse_mhcii.py -n 1000 data/seq_000.txt
+python3 parse_mhcii.py -n 1000 -p mouse data/seq_000.txt
 ```
 
 ### Step 4 - Calculate amino acid usage stats for mouse proteome
