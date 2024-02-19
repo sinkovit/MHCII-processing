@@ -86,3 +86,7 @@ python3 parse_mhcii.py -n 1000 -p mouse_random mhciipred.mouse_random.UP00000058
 
 # Calculate amino acid usage for mouse proteome
 python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
+
+# Generate histograms for random peptides w/o MHC restriction
+
+python3 random-nomhc-restriction.py -n 2516523

@@ -73,3 +73,7 @@ non-standard (BOUJXZ) residues across entire proteome
 ```
 python3 aa_stats.py uniprot-proteome%3AUP000000589.fasta
 ```
+
+### Step 5 - Generate histograms for random peptides w/o MHC restriction
+
+```python3 random-nomhc-restriction.py -n 2516523```
